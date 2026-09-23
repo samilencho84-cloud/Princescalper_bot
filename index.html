@@ -3,147 +3,620 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XScalper — AI Trading Demo</title>
+
+  <title>XScalper — AI Trading Platform</title>
+
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* PAGE SYSTEM */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* NAV */
+    .navbar nav a.active {
+      color: #f5c542;
+    }
+
+    /* HERO BUTTONS */
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    .hero-actions a {
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background: #f5c542;
+      color: #05070b;
+    }
+
+    .btn-secondary {
+      border: 1px solid #334155;
+      color: #fff;
+    }
+
+    /* EXTRA CARDS */
+    .extra-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .extra-card {
+      background: #0b1018;
+      border: 1px solid #202b3b;
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    .extra-card h3 {
+      margin-top: 0;
+    }
+
+    .extra-card strong {
+      font-size: 24px;
+    }
+
+    /* TERMINAL FORM */
+    .connection-box {
+      background: #0b1018;
+      border: 1px solid #202b3b;
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .connection-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .connection-grid input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #070b11;
+      color: white;
+    }
+
+    .connect-btn {
+      margin-top: 18px;
+      padding: 13px 22px;
+      border: 0;
+      border-radius: 9px;
+      background: #00e887;
+      color: #03130c;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .connection-status {
+      margin-top: 15px;
+      color: #f5c542;
+    }
+
+    /* CHART PLACEHOLDER */
+    .chart-box {
+      height: 280px;
+      margin-top: 20px;
+      border-radius: 14px;
+      border: 1px solid #202b3b;
+      background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
+        #080d14;
+      background-size: 40px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #718096;
+    }
+
+    /* WALLET */
+    .wallet-header {
+      margin-bottom: 25px;
+    }
+
+    .wallet-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .wallet-btn {
+      padding: 12px 22px;
+      border-radius: 9px;
+      border: 1px solid #334155;
+      background: #101722;
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .wallet-btn.deposit {
+      background: #f5c542;
+      color: #05070b;
+      border: none;
+    }
+
+    .security-list {
+      line-height: 2;
+      color: #cbd5e1;
+    }
+
+    /* MOBILE */
+    @media (max-width: 800px) {
+
+      .extra-grid,
+      .connection-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar {
+        flex-wrap: wrap;
+      }
+
+      .navbar nav {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      .navbar nav a {
+        white-space: nowrap;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header class="navbar">
-  <div class="logo">⚔️ <span>X</span>Scalper</div>
+
+  <div class="logo">
+    ⚔️ <span>X</span>Scalper
+  </div>
 
   <nav>
-    <a href="#">Home</a>
-    <a href="#dashboard">Dashboard</a>
-    <a href="#terminal">Terminal</a>
-    <a href="#history">Trade History</a>
+
+    <a href="#" class="nav-link active" data-page="home">
+      Home
+    </a>
+
+    <a href="#dashboard" class="nav-link" data-page="dashboard">
+      Dashboard
+    </a>
+
+    <a href="#terminal" class="nav-link" data-page="terminal">
+      Terminal
+    </a>
+
+    <a href="#demo" class="nav-link" data-page="demo">
+      Demo
+    </a>
+
+    <a href="#wallet" class="nav-link" data-page="wallet">
+      Wallet
+    </a>
+
+    <a href="#logout" class="nav-link" data-page="logout">
+      Logout
+    </a>
+
   </nav>
 
-  <div class="user">Sami Lencho</div>
+  <div class="user">
+    Sami Lencho
+  </div>
+
 </header>
+
 
 <main>
 
-<section class="hero">
-  <div class="badge">🟢 Live Demo · Momentum Scalper v4.2</div>
+<!-- ===================================================== -->
+<!-- HOME -->
+<!-- ===================================================== -->
 
-  <h1>
-    Autonomous AI Scalper for
-    <span>XAU/USD</span>
-  </h1>
+<section id="home" class="page active">
 
-  <p>
-    AI-driven trading simulation with adaptive risk management,
-    profit targets and real-time demo execution.
-  </p>
+  <section class="hero">
 
-  <div class="hero-stats">
-    <div>
-      <small>REAL-TIME WIN RATE</small>
-      <strong>78.20%</strong>
+    <div class="badge">
+      🟢 Live Strategy · Momentum Scalper v4.2
     </div>
 
-    <div>
-      <small>AVG. EXECUTION</small>
-      <strong>12ms</strong>
+    <h1>
+      Autonomous AI Scalper for
+      <span>XAU/USD</span>
+    </h1>
+
+    <p>
+      AI-driven trading platform designed for gold scalping,
+      adaptive risk management and automated execution.
+    </p>
+
+    <div class="hero-actions">
+
+      <a href="#demo"
+         class="btn-primary nav-link"
+         data-page="demo">
+        Try Free Demo
+      </a>
+
+      <a href="#terminal"
+         class="btn-secondary nav-link"
+         data-page="terminal">
+        Open Terminal
+      </a>
+
     </div>
 
-    <div>
-      <small>MARKET REGIME</small>
-      <strong>Trending</strong>
+    <div class="hero-stats">
+
+      <div>
+        <small>REAL-TIME WIN RATE</small>
+        <strong>78.20%</strong>
+      </div>
+
+      <div>
+        <small>AVG. EXECUTION</small>
+        <strong>12ms</strong>
+      </div>
+
+      <div>
+        <small>MARKET REGIME</small>
+        <strong>Trending</strong>
+      </div>
+
+      <div>
+        <small>ACTIVE TRADERS</small>
+        <strong>1,037</strong>
+      </div>
+
     </div>
 
-    <div>
-      <small>ACTIVE TRADERS</small>
-      <strong>1,037</strong>
-    </div>
-  </div>
+  </section>
+
 </section>
 
 
-<section id="dashboard" class="dashboard">
+<!-- ===================================================== -->
+<!-- DASHBOARD -->
+<!-- ===================================================== -->
+
+<section id="dashboard" class="page dashboard">
 
   <div class="section-title">
-    <h2>AI Scalping Terminal</h2>
-    <span class="live">● LIVE</span>
+
+    <h2>Trading Dashboard</h2>
+
+    <span class="live">
+      ● LIVE
+    </span>
+
   </div>
+
 
   <div class="cards">
 
     <div class="card">
-      <small>DEMO BALANCE</small>
-      <h3 id="balance">$10,000.00</h3>
+      <small>NET EQUITY</small>
+      <h3>$10,000.00</h3>
     </div>
 
     <div class="card">
-      <small>XAU/USD</small>
-      <h3 id="price">$4,352.70</h3>
+      <small>REAL BALANCE</small>
+      <h3>$10,000.00</h3>
     </div>
 
     <div class="card">
-      <small>EQUITY</small>
-      <h3 id="equity">$10,000.00</h3>
+      <small>TODAY'S P/L</small>
+      <h3 class="green">+$0.00</h3>
     </div>
 
     <div class="card">
-      <small>SESSION P/L</small>
-      <h3 id="pnl" class="green">+$0.00</h3>
+      <small>WIN RATE</small>
+      <h3>0.0%</h3>
     </div>
 
   </div>
 
 
-  <div class="terminal" id="terminal">
+  <div class="extra-grid">
+
+    <div class="extra-card">
+
+      <small>CURRENT EQUITY</small>
+
+      <h3>
+        $10,000.00
+      </h3>
+
+      <div class="chart-box">
+        Equity Growth
+      </div>
+
+    </div>
+
+
+    <div class="extra-card">
+
+      <small>STRATEGY ALLOCATION</small>
+
+      <h3>
+        AI Momentum
+      </h3>
+
+      <p>
+        XAU/USD Scalping
+      </p>
+
+      <p>
+        Risk: <strong>1.0%</strong>
+      </p>
+
+      <p>
+        Mode: <strong>Adaptive</strong>
+      </p>
+
+    </div>
+
+
+    <div class="extra-card">
+
+      <small>MARKET</small>
+
+      <h3>
+        XAU/USD
+      </h3>
+
+      <p>
+        DXY: <strong>102.40</strong>
+      </p>
+
+      <p>
+        Volatility: <strong>Medium</strong>
+      </p>
+
+      <p>
+        Regime: <strong>Trending</strong>
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="info-section">
+
+    <h2>Trade History</h2>
+
+    <div class="terminal">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>TIME</th>
+            <th>TYPE</th>
+            <th>SYMBOL</th>
+            <th>ENTRY</th>
+            <th>EXIT</th>
+            <th>P/L</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>--:--</td>
+            <td>---</td>
+            <td>XAU/USD</td>
+            <td>---</td>
+            <td>---</td>
+            <td>$0.00</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- TERMINAL -->
+<!-- ===================================================== -->
+
+<section id="terminal" class="page dashboard">
+
+  <div class="section-title">
+
+    <h2>MT5 Trading Terminal</h2>
+
+    <span class="status idle">
+      ● MT5 Disconnected
+    </span>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+      <small>BALANCE</small>
+      <h3>$0.00</h3>
+    </div>
+
+    <div class="card">
+      <small>EQUITY</small>
+      <h3>$0.00</h3>
+    </div>
+
+    <div class="card">
+      <small>FREE MARGIN</small>
+      <h3>$0.00</h3>
+    </div>
+
+    <div class="card">
+      <small>OPEN P/L</small>
+      <h3>$0.00</h3>
+    </div>
+
+  </div>
+
+
+  <div class="connection-box">
+
+    <h2>Connect MetaTrader 5</h2>
+
+    <p>
+      Connect your MT5 demo account through the secure backend.
+    </p>
+
+    <div class="connection-grid">
+
+      <div>
+
+        <label>ACCOUNT NUMBER</label>
+
+        <input
+          id="mt5Account"
+          type="text"
+          placeholder="Account number"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>SERVER</label>
+
+        <input
+          id="mt5Server"
+          type="text"
+          placeholder="Exness server"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>PASSWORD</label>
+
+        <input
+          id="mt5Password"
+          type="password"
+          placeholder="MT5 password"
+        >
+
+      </div>
+
+    </div>
+
+
+    <button
+      id="connectMt5Btn"
+      class="connect-btn"
+      type="button">
+      🔐 Connect MT5
+    </button>
+
+
+    <div
+      id="mt5Status"
+      class="connection-status">
+      ● Waiting for connection
+    </div>
+
+  </div>
+
+
+  <div class="terminal">
 
     <div class="terminal-header">
+
       <div>
-        <h2>Demo Trading Terminal</h2>
-        <p>Simulated XAU/USD scalping engine</p>
+
+        <h2>
+          XAU/USD
+        </h2>
+
+        <p>
+          Gold Spot / U.S. Dollar
+        </p>
+
       </div>
 
-      <div id="status" class="status idle">
-        ● Engine Idle
+      <div>
+        <strong>
+          $4,352.70
+        </strong>
       </div>
+
     </div>
 
 
     <div class="controls">
 
       <div>
-        <label>RISK %</label>
-        <input id="risk" type="number" value="1" step="0.1">
+        <label>LOTS</label>
+        <input type="number" value="0.01" step="0.01">
       </div>
 
       <div>
         <label>MAX LOSS ($)</label>
-        <input id="maxLoss" type="number" value="50">
+        <input type="number" value="50">
       </div>
 
       <div>
         <label>PROFIT TARGET ($)</label>
-        <input id="target" type="number" value="1000">
+        <input type="number" value="100">
       </div>
 
-      <button id="applyBtn" class="secondary">
-        Apply Risk
-      </button>
+      <div>
+        <label>MAX POSITIONS</label>
+        <input type="number" value="1">
+      </div>
 
-      <button id="startBtn" class="start">
-        ▶ Start Demo
-      </button>
-
-      <button id="stopBtn" class="stop">
-        ■ Stop
+      <button class="start" type="button">
+        ▶ Start Trading
       </button>
 
     </div>
 
 
-    <div class="risk-info">
-      <span>Risk: <b id="riskDisplay">1.0%</b></span>
-      <span>Max Loss: <b id="lossDisplay">$50</b></span>
-      <span>Target: <b id="targetDisplay">$1000</b></span>
-      <span id="riskMessage">Risk controls ready</span>
+    <div class="chart-box">
+
+      📈 XAU/USD MT5 Chart
+
     </div>
 
 
@@ -151,27 +624,42 @@
 
       <div class="execution">
 
-        <h3>TRADE EXECUTION LOG</h3>
+        <h3>
+          OPEN POSITIONS
+        </h3>
 
-        <table id="history">
+        <table>
+
           <thead>
+
             <tr>
-              <th>TIME</th>
+              <th>SYMBOL</th>
               <th>TYPE</th>
+              <th>LOTS</th>
               <th>ENTRY</th>
-              <th>EXIT</th>
+              <th>SL</th>
+              <th>TP</th>
               <th>P/L</th>
-              <th>STATUS</th>
             </tr>
+
           </thead>
 
-          <tbody id="historyBody">
-            <tr class="empty">
-              <td colspan="6">
-                Click "Start Demo" to begin simulated trading
-              </td>
+          <tbody>
+
+            <tr>
+
+              <td>XAU/USD</td>
+              <td>---</td>
+              <td>0.00</td>
+              <td>---</td>
+              <td>---</td>
+              <td>---</td>
+              <td>$0.00</td>
+
             </tr>
+
           </tbody>
+
         </table>
 
       </div>
@@ -180,27 +668,41 @@
       <aside class="side-panel">
 
         <div class="metric">
-          <small>NET PROFIT / LOSS</small>
-          <strong id="sidePnl">+$0.00</strong>
-        </div>
 
-        <div class="mini-grid">
+          <small>
+            ENGINE STATUS
+          </small>
 
-          <div class="metric">
-            <small>WIN RATE</small>
-            <strong id="winRate">0.0%</strong>
-          </div>
-
-          <div class="metric">
-            <small>TRADES</small>
-            <strong id="tradeCount">0 trades</strong>
-          </div>
+          <strong>
+            🔴 Disconnected
+          </strong>
 
         </div>
+
 
         <div class="metric">
-          <small>ENGINE STATUS</small>
-          <strong>🤖 Demo Ready</strong>
+
+          <small>
+            ACTIVE EXPOSURE
+          </small>
+
+          <strong>
+            0.00 lots
+          </strong>
+
+        </div>
+
+
+        <div class="metric">
+
+          <small>
+            NET P/L
+          </small>
+
+          <strong>
+            $0.00
+          </strong>
+
         </div>
 
       </aside>
@@ -212,26 +714,655 @@
 </section>
 
 
-<section id="history" class="info-section">
+<!-- ===================================================== -->
+<!-- DEMO -->
+<!-- ===================================================== -->
 
-  <h2>Risk Management</h2>
+<section id="demo" class="page dashboard">
 
-  <div class="risk-cards">
+  <div class="section-title">
 
-    <div>
-      <h3>🛡️ Maximum Loss</h3>
-      <p>Automatically stops the demo when the maximum loss is reached.</p>
+    <h2>
+      Demo Trading Terminal
+    </h2>
+
+    <span class="live">
+      ● INTERACTIVE DEMO
+    </span>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+
+      <small>
+        DEMO FUNDS
+      </small>
+
+      <h3 id="balance">
+        $10,000.00
+      </h3>
+
     </div>
 
-    <div>
-      <h3>🎯 Profit Target</h3>
-      <p>Stops simulated trading after reaching the selected target.</p>
+
+    <div class="card">
+
+      <small>
+        XAU/USD
+      </small>
+
+      <h3 id="price">
+        $4,352.70
+      </h3>
+
     </div>
 
-    <div>
-      <h3>📊 Trade Analytics</h3>
-      <p>Tracks trades, win rate and session profit or loss.</p>
+
+    <div class="card">
+
+      <small>
+        EQUITY
+      </small>
+
+      <h3 id="equity">
+        $10,000.00
+      </h3>
+
     </div>
+
+
+    <div class="card">
+
+      <small>
+        SESSION P/L
+      </small>
+
+      <h3
+        id="pnl"
+        class="green">
+        +$0.00
+      </h3>
+
+    </div>
+
+  </div>
+
+
+  <div class="terminal">
+
+    <div class="terminal-header">
+
+      <div>
+
+        <h2>
+          Demo Trading Engine
+        </h2>
+
+        <p>
+          Simulated XAU/USD scalping engine
+        </p>
+
+      </div>
+
+
+      <div
+        id="status"
+        class="status idle">
+        ● Engine Idle
+      </div>
+
+    </div>
+
+
+    <div class="controls">
+
+      <div>
+
+        <label>
+          RISK %
+        </label>
+
+        <input
+          id="risk"
+          type="number"
+          value="1"
+          step="0.1">
+
+      </div>
+
+
+      <div>
+
+        <label>
+          MAX LOSS ($)
+        </label>
+
+        <input
+          id="maxLoss"
+          type="number"
+          value="50">
+
+      </div>
+
+
+      <div>
+
+        <label>
+          PROFIT TARGET ($)
+        </label>
+
+        <input
+          id="target"
+          type="number"
+          value="100">
+
+      </div>
+
+
+      <button
+        id="applyBtn"
+        class="secondary"
+        type="button">
+        Apply Risk
+      </button>
+
+
+      <button
+        id="startBtn"
+        class="start"
+        type="button">
+        ▶ Start Demo
+      </button>
+
+
+      <button
+        id="stopBtn"
+        class="stop"
+        type="button">
+        ■ Stop Demo
+      </button>
+
+    </div>
+
+
+    <div class="risk-info">
+
+      <span>
+        Risk:
+        <b id="riskDisplay">
+          1.0%
+        </b>
+      </span>
+
+      <span>
+        Max Loss:
+        <b id="lossDisplay">
+          $50
+        </b>
+      </span>
+
+      <span>
+        Target:
+        <b id="targetDisplay">
+          $100
+        </b>
+      </span>
+
+      <span id="riskMessage">
+        Risk controls ready
+      </span>
+
+    </div>
+
+
+    <div class="terminal-body">
+
+      <div class="execution">
+
+        <h3>
+          TRADE EXECUTION LOG
+        </h3>
+
+        <table id="history">
+
+          <thead>
+
+            <tr>
+              <th>TIME</th>
+              <th>TYPE</th>
+              <th>ENTRY</th>
+              <th>EXIT</th>
+              <th>P/L</th>
+              <th>STATUS</th>
+            </tr>
+
+          </thead>
+
+
+          <tbody id="historyBody">
+
+            <tr class="empty">
+
+              <td colspan="6">
+                Click "Start Demo" to begin simulated trading
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <aside class="side-panel">
+
+        <div class="metric">
+
+          <small>
+            NET PROFIT / LOSS
+          </small>
+
+          <strong id="sidePnl">
+            +$0.00
+          </strong>
+
+        </div>
+
+
+        <div class="mini-grid">
+
+          <div class="metric">
+
+            <small>
+              WIN RATE
+            </small>
+
+            <strong id="winRate">
+              0.0%
+            </strong>
+
+          </div>
+
+
+          <div class="metric">
+
+            <small>
+              TRADES
+            </small>
+
+            <strong id="tradeCount">
+              0 trades
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="metric">
+
+          <small>
+            ENGINE STATUS
+          </small>
+
+          <strong>
+            🤖 Demo Ready
+          </strong>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+
+  <div class="info-section">
+
+    <h2>
+      What is XScalper?
+    </h2>
+
+    <div class="extra-grid">
+
+      <div class="extra-card">
+
+        <h3>
+          ⚡ Fast Execution
+        </h3>
+
+        <p>
+          Designed for short-term XAU/USD scalping.
+        </p>
+
+      </div>
+
+
+      <div class="extra-card">
+
+        <h3>
+          🧠 AI Strategy
+        </h3>
+
+        <p>
+          Strategy framework for momentum and market conditions.
+        </p>
+
+      </div>
+
+
+      <div class="extra-card">
+
+        <h3>
+          🛡️ Risk Management
+        </h3>
+
+        <p>
+          Maximum loss and profit target controls.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- WALLET -->
+<!-- ===================================================== -->
+
+<section id="wallet" class="page dashboard">
+
+  <div class="wallet-header">
+
+    <div class="section-title">
+
+      <h2>
+        XScalper Wallet
+      </h2>
+
+      <span class="status idle">
+        ● Secure Account
+      </span>
+
+    </div>
+
+    <p>
+      Manage your account balance, deposits, withdrawals
+      and trading funds.
+    </p>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+
+      <small>
+        TOTAL MANAGED ASSETS
+      </small>
+
+      <h3>
+        $0.00
+      </h3>
+
+    </div>
+
+
+    <div class="card">
+
+      <small>
+        24H P/L
+      </small>
+
+      <h3 class="green">
+        +$0.00
+      </h3>
+
+    </div>
+
+
+    <div class="card">
+
+      <small>
+        DAILY APY
+      </small>
+
+      <h3>
+        14.2%
+      </h3>
+
+    </div>
+
+
+    <div class="card">
+
+      <small>
+        RISK LEVEL
+      </small>
+
+      <h3>
+        Low-Med
+      </h3>
+
+    </div>
+
+  </div>
+
+
+  <div class="wallet-actions">
+
+    <button
+      class="wallet-btn deposit"
+      type="button">
+      + Deposit
+    </button>
+
+    <button
+      class="wallet-btn"
+      type="button">
+      Withdraw
+    </button>
+
+  </div>
+
+
+  <div class="extra-grid">
+
+    <div class="extra-card">
+
+      <h3>
+        🔐 Security Health
+      </h3>
+
+      <div class="security-list">
+
+        <div>
+          ✅ Institutional Multi-Sig
+        </div>
+
+        <div>
+          ✅ AES-256 Encryption
+        </div>
+
+        <div>
+          ⚪ Whitelisting Off
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="extra-card">
+
+      <h3>
+        💰 XScalper Staking
+      </h3>
+
+      <strong>
+        18.5% APY
+      </strong>
+
+      <p>
+        Staking features will be connected later.
+      </p>
+
+      <button
+        class="wallet-btn"
+        type="button">
+        Stake Now
+      </button>
+
+    </div>
+
+
+    <div class="extra-card">
+
+      <h3>
+        🛡️ Safe Haven Vault
+      </h3>
+
+      <strong>
+        #0812
+      </strong>
+
+      <p>
+        Insurance Cap: $2.5M
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="info-section">
+
+    <h2>
+      Transaction Ledger
+    </h2>
+
+    <div class="terminal">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>DATE</th>
+            <th>TYPE</th>
+            <th>AMOUNT</th>
+            <th>STATUS</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+
+            <td>---</td>
+            <td>---</td>
+            <td>$0.00</td>
+            <td>---</td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <div class="info-section">
+
+    <h2>
+      Performance Analytics
+    </h2>
+
+    <div class="extra-grid">
+
+      <div class="extra-card">
+
+        <small>
+          TOTAL PROFIT
+        </small>
+
+        <h3>
+          $0.00
+        </h3>
+
+      </div>
+
+
+      <div class="extra-card">
+
+        <small>
+          WIN RATE
+        </small>
+
+        <h3>
+          0.0%
+        </h3>
+
+      </div>
+
+
+      <div class="extra-card">
+
+        <small>
+          AVG WINNER
+        </small>
+
+        <h3>
+          $0.00
+        </h3>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LOGOUT -->
+<!-- ===================================================== -->
+
+<section id="logout" class="page dashboard">
+
+  <div class="terminal">
+
+    <h2>
+      Logout
+    </h2>
+
+    <p>
+      You are currently signed in as
+      <strong>Sami Lencho</strong>.
+    </p>
+
+    <button
+      id="logoutBtn"
+      class="stop"
+      type="button">
+      Logout
+    </button>
 
   </div>
 
@@ -241,12 +1372,133 @@
 
 
 <footer>
-  <strong>⚔️ XScalper</strong>
-  <p>AI Scalping Demo · Educational use only</p>
+
+  <strong>
+    ⚔️ XScalper
+  </strong>
+
+  <p>
+    AI Scalping Platform · Educational use only
+  </p>
+
 </footer>
 
 
 <script src="app.js"></script>
+
+
+<script>
+/* =====================================================
+   XSCALPER PAGE NAVIGATION
+   ===================================================== */
+
+const pages = document.querySelectorAll(".page");
+const navLinks = document.querySelectorAll(".nav-link");
+
+function showPage(pageName) {
+
+  pages.forEach(page => {
+    page.classList.remove("active");
+  });
+
+  const selectedPage = document.getElementById(pageName);
+
+  if (selectedPage) {
+    selectedPage.classList.add("active");
+  }
+
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+
+    if (link.dataset.page === pageName) {
+      link.classList.add("active");
+    }
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+navLinks.forEach(link => {
+
+  link.addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+    const pageName = this.dataset.page;
+
+    showPage(pageName);
+
+    history.replaceState(
+      null,
+      "",
+      "#" + pageName
+    );
+
+  });
+
+});
+
+
+/* OPEN PAGE FROM URL */
+
+const initialPage =
+  window.location.hash.replace("#", "");
+
+if (
+  initialPage &&
+  document.getElementById(initialPage)
+) {
+
+  showPage(initialPage);
+
+}
+
+
+/* =====================================================
+   MT5 CONNECTION BUTTON
+   ===================================================== */
+
+const connectBtn =
+  document.getElementById("connectMt5Btn");
+
+if (connectBtn) {
+
+  connectBtn.addEventListener("click", function() {
+
+    const status =
+      document.getElementById("mt5Status");
+
+    status.textContent =
+      "🟡 Connection interface ready — secure backend required.";
+
+  });
+
+}
+
+
+/* =====================================================
+   LOGOUT BUTTON
+   ===================================================== */
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+
+  logoutBtn.addEventListener("click", function() {
+
+    alert(
+      "Logout will be connected to authentication in the next step."
+    );
+
+  });
+
+}
+</script>
 
 </body>
 </html>
